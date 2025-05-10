@@ -1,0 +1,30 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: password123    # Mật khẩu cho root user
+      MYSQL_DATABASE: mydb               # Tên database mặc định
+    ports:
+      - "3306:3306"  # Mở cổng MySQL
+    volumes:
+      - mysql-data:/var/lib/mysql  # Lưu dữ liệu MySQL vào volume để không bị mất khi container tắt
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-container
+    environment:
+      PMA_HOST: mysql  # Kết nối với MySQL service qua tên container
+      PMA_USER: root    # Người dùng MySQL là root
+      PMA_PASSWORD: password123  # Mật khẩu của root user
+    ports:
+      - "8080:80"  # Mở cổng 8080 cho giao diện web phpMyAdmin
+    depends_on:
+      - mysql  # Đảm bảo MySQL được khởi động trước
+
+volumes:
+  mysql-data:
+#docker-compose up -d
+#docker exec -it mysql-container mysql -u root -p
+#docker rm mysql-container
